@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"href="./style.css">
+    <title>Cocktails</title>
+</head>
+<body>
+   
+    <section class="homeScreen">
+        <div class = "home-container"> 
+            <div class = "welcome">
+                <p>Welcome to Something</p>
+            </div>
+            <div class = "home-toggle">
+                <div class = "home-mid-area"> 
+                    <div class = "verbs">
+                        <div class = "verb">Find</div>
+                        <div class = "verb">Create</div>
+                        <div class = "verb">Save</div>
+                    </div>
+                    <div class = "favorite">Your New Favorite Cocktail</div>
+                </div>  
+                <div class="login-area hidden">
+                    <form class="login-form">
+                        <label for="login-email">Email:</label>
+                        <input type="text" id="login-email">
+                        
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password">
+                        
+                        <input type="submit" value="Log In!">
+                    </form>
+                    <div class = "back">Go Back</div>
+                </div>
+
+                <div class="signUp-area hidden">
+                
+                    <form class="signup-form">
+                        <label for="signup-name">Name:</label>
+                        <input type="text" id="signup-name">
+                        
+                        <label for="signup-email">Email:</label>
+                        <input type="text" id="signup-email">
+                        
+                        <label for="signup-password">Password:</label>
+                        <input type="password" id="signup-password">
+                        
+                        <input type="submit" value="Sign Up!">
+                    </form>
+                    <div class = "back">Go Back</div>
+                    
+                </div>
+
+
+                <div class = "home-nav">
+                    <div class = "show" id= "login">Login</div>
+                    <div class = "show" id= "signup">Sign Up</div>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </section>
+
+
+
+    <section class="loggedInScreen hidden">
+
+        <div class = "loggedin-container"> 
+
+            <div class = "heading"> 
+                <div id="dash-info">Hello There, user!</div>
+                <div> Thirsty For Something Specific?</div>
+                <form class="search-form">
+                <label for="search-cocktail hidden">Cocktail</label>
+                <input type="text" id="search-cocktail">
+                <input type="submit" value="Search!">
+                </form>
+            </div>
+
+            <nav class = "profile-nav">
+                <span id="popular" class="nav-link">Popular</span>
+                <span id="spirits" class="nav-link">Spirits</span>
+                <span id="my-saved" class="nav-link">Saved</span>
+                <span id="my-create"  class="nav-link">My Mixes</span>
+                <span id="logout-link" class="nav-link">Logout</span>
+            </nav>
+            <div class = "profile"> 
+                <div id= "directory">
+                    <div class = "title"></div>
+                </div>
+
+                <div class = "random">
+                    <div class = "walk">Walk on the Wild Side</div>
+                    <div>Try Something Random!</div>
+                    <div class = "random-drink">RANDOM DRINK PLACEHOLDER</div>
+                    <div class = "new-random">New Rando</div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+<script async defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js "></script>
+<script async defer src="./main.js"></script>
+</body>
+</html>

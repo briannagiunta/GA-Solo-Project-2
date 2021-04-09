@@ -1,0 +1,207 @@
+.nav-link {
+    color: rgb(200, 138, 200);
+    text-decoration: underline;
+    margin: 0.5em;
+  }
+  
+.nav-link:hover {
+    cursor: pointer;
+}
+  
+.new-random:hover{ 
+    cursor: pointer;
+    border: solid pink;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 5px;
+}
+
+.home-container{
+    border: solid black;
+    padding: 10px;
+    width: 900px;
+    height: 650px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.welcome{
+    border: solid red;
+    padding: 10px;
+    margin: 5px;
+    font-size: 50px;
+}
+
+.home-toggle{
+    border: solid blue;
+    padding: 10px;
+    margin: 5px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.home-mid-area{
+    border: solid rgb(221, 139, 221);
+    padding: 10px;
+    margin: 5px;
+}
+
+.verbs{
+    border: solid yellow;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.verb{
+    border: solid green;
+    padding: 10px;
+    margin: 5px;
+    width: 80px;
+}
+
+.favorite{
+    border: solid orange;
+    padding: 10px;
+    margin: 5px;
+    display: inline-block;
+
+}
+ .home-nav{
+    border: solid purple;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+ }
+
+.show{
+    border: solid pink;
+    padding: 10px;
+    margin: 5px;
+    width: 80px;
+}
+
+.show:hover{
+    cursor: pointer;
+}
+
+.login-area{
+    border: solid green;
+    padding: 10px;
+    margin: 5px;
+}
+
+.signUp-area{
+    border: solid green;
+    padding: 10px;
+    margin: 5px;
+}
+
+.back{
+    border: solid orange;
+    padding: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.back:hover{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+.loggedin-container{
+    border: solid black;
+    padding: 10px;
+    margin: 5px;
+    width: 900px;
+    height: 650px;
+}
+
+.heading{
+    border: solid red;
+    padding: 10px;
+    margin: 5px;
+}
+
+.profile-nav{
+    border: solid green;
+    padding: 10px;
+    margin: 5px;
+}
+
+.profile{
+    height: 500px;
+    border: solid purple;
+    display: flex;
+    margin: 5px;
+}
+#directory{
+    border: solid blue;
+    padding: 10px;
+    margin: 5px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+
+.random{
+    border: solid orange;
+    padding: 10px;
+    margin: 5px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.random-drink{
+    border: solid brown;
+    padding: 5px;
+    margin: -10px;
+    width: 300px;
+    height: 200px;
+}
+
+.walk{
+    font-size: 30px;
+}
+
+.title{
+    font-size: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.hidden{
+    display: none;
+}
