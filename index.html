@@ -5,14 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css"href="./style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <title>Cocktails</title>
 </head>
 <body>
    
-    <section class="homeScreen">
+    <div class="homeScreen">
         <div class = "home-container"> 
             <div class = "welcome">
-                <p>Welcome to Something</p>
+                    <div class = "blur"> 
+                    <p>Welcome to Something</p>
+                </div>
             </div>
             <div class = "home-toggle">
                 <div class = "home-mid-area"> 
@@ -64,16 +68,16 @@
             
         </div>
 
-    </section>
+    </div>
 
 
 
-    <section class="loggedInScreen hidden">
+    <div class="loggedInScreen hidden">
 
         <div class = "loggedin-container"> 
 
             <div class = "heading"> 
-                <div id="dash-info">Hello There, user!</div>
+                <div id="user-name">Hello There, user!</div>
                 <div> Thirsty For Something Specific?</div>
                 <form class="search-form">
                 <label for="search-cocktail hidden">Cocktail</label>
@@ -84,18 +88,30 @@
 
             <nav class = "profile-nav">
                 <span id="popular" class="nav-link">Popular</span>
+                <span id="recent" class="nav-link">Most Recent</span>
                 <span id="spirits" class="nav-link">Spirits</span>
-                <span id="my-saved" class="nav-link">Saved</span>
-                <span id="my-create"  class="nav-link">My Mixes</span>
-                <span id="logout-link" class="nav-link">Logout</span>
+                <span id="saved" class="nav-link">My Favs</span>
+                <span id="create"  class="nav-link">Add a New Drink</span>
+                <span id="logout" class="nav-link">Logout</span>
             </nav>
             <div class = "profile"> 
-                <div id= "directory">
-                    <div class = "title"></div>
+                <div class= "directory-container">
+                    <div class = "spacing" id = "title"></div>
+                    <section class = "directory"></section>
+                    <section class = "spirit-screen hidden">
+                        <div class = "spirit" id = "vodka">Vodka</div>
+                        <div class = "spirit" id = "rum">Rum</div>
+                        <div class = "spirit" id = "gin">Gin</div>
+                        <div class = "spirit" id = "tequila">Tequila</div>
+                        <div class = "spirit" id = "whiskey">Whiskey</div>
+                        <div class = "spirit" id = "brandy">Brandy</div>
+                    </section>
+                    <section class = "saved-screen hidden">SAVED PLACEHOLER</section>
+                    <section class = "create-screen hidden">CREATE PLACEHODLER</section>
                 </div>
 
                 <div class = "random">
-                    <div class = "walk">Walk on the Wild Side</div>
+                    <div class = "walk">Feelin' Wild?</div>
                     <div>Try Something Random!</div>
                     <div class = "random-drink">RANDOM DRINK PLACEHOLDER</div>
                     <div class = "new-random">New Rando</div>
@@ -104,7 +120,7 @@
 
         </div>
 
-    </section>
+    </div>
 
 
 

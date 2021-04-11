@@ -20,6 +20,11 @@ app.get('/style.css', (req, res) => {
   res.type('css').sendFile(filepath)
 })
 
+app.get('/bar.jpeg', (req, res) => {
+  const filepath = path.join(__dirname, 'bar.jpeg')
+  res.sendFile(filepath)
+})
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     routesReport.print()
