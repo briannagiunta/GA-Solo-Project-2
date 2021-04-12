@@ -29,11 +29,25 @@ const navLinks = document.querySelectorAll('.nav-link');
 const directory = document.querySelector('.directory');
 const currentLocation = document.querySelector('#title');
 const spiritScreen = document.querySelector(".spirit-screen")
-const savedScreen = document.querySelector(".saved-screen")
+const myDrinksScreen = document.querySelector('.my-drinks')
+const myDrinksArea = document.querySelector('.mydrinks-container')
+const addNew = document.querySelector('.create')
 const createScreen = document.querySelector(".create-screen")
 const sections = document.querySelectorAll('section')
-
-
+const randomArea = document.querySelector('.random-drink')
+const randoButton = document.querySelector('.new-random')
+const spirits = document.querySelectorAll('.spirit')
+//CREATE NEW DRINK FORM
+const createForm = document.querySelector('.addCocktail-form')
+const createName = document.querySelector('#add-name')
+const createPic = document.querySelector('#add-pic')
+const createInstructions = document.querySelector('#add-instructions')
+const cIngredient1 = document.querySelector('#add-ingredient-1')
+const cIngredient2 = document.querySelector('#add-ingredient-2')
+const cIngredient3 = document.querySelector('#add-ingredient-3')
+const cIngredient4 = document.querySelector('#add-ingredient-4')
+const cIngredient5 = document.querySelector('#add-ingredient-5')
+const back = document.querySelector('.goback')
 
 
 
@@ -44,15 +58,15 @@ const handleLogin = async () => {
     const email = loginEmail.value;
     const password = loginPassword.value;
     try {
-      const response = await axios.post('http://localhost:3001/users/login', {
-        email: email,
-        password: password
-      })
-      const userId = response.data.user.id
-      localStorage.setItem('userId', userId)
-      checkStorage()
+        const response = await axios.post('http://localhost:3001/users/login', {
+            email: email,
+            password: password
+        })
+        const userId = response.data.user.id
+        localStorage.setItem('userId', userId)
+        checkStorage()
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
 }
 
@@ -64,15 +78,15 @@ const handleSignUp = async () => {
     const password = signUpPassword.value;
     try {
       const response = await axios.post('http://localhost:3001/users', {
-        name: name,
-        email: email,
-        password: password
+          name: name,
+          email: email,
+          password: password
         })
         const userId = response.data.newUser.id
         localStorage.setItem('userId', userId)
         checkStorage()
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
 }
 
@@ -91,6 +105,8 @@ const removeAllChildren = (parent) => {
 const displayLoggedIn = () => {
     homeScreen.classList.add('hidden');
     loggedInScreen.classList.remove('hidden');
+    getPopOrRecent(popular)
+    currentLocation.innerHTML = 'Popular Drinks'
 }
 
 const displayLoggedOut = () => {
@@ -131,13 +147,11 @@ goBack.forEach((back) => {
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault()
     handleLogin()
-    // displayLoggedIn()
 })
 //adds event listener to sign up form and calls sign up function when form is submitted
 signUpForm.addEventListener('submit', (event) => {
     event.preventDefault()
     handleSignUp()
-    // displayLoggedIn()
 })
 
 
@@ -161,12 +175,19 @@ const getProfile = async () => {
 }
 
 //gets all popular or recent drinks from api / creates div for each and shows name
-const getDrinks = async (type) => {
- try {
-    const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/${type.id}.php`)
+const getPopOrRecent = async (type) => {
+    try {
+        const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/${type.id}.php`)
+        const allDrinks = res.data.drinks;
+        showAllDrinks(allDrinks)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//creates div for each drink and shows name
+const showAllDrinks = async (allDrinks) => {
     removeAllChildren(directory)
-    const allDrinks = res.data.drinks;
-    // console.log(res.data);
     allDrinks.forEach((drink) => {
         const drinkName = drink.strDrink
         const drinkDiv = document.createElement('div')
@@ -176,9 +197,6 @@ const getDrinks = async (type) => {
         directory.append(drinkDiv)
     })
     getPageDrinks()
- } catch (error) {
-     console.log(error);
- }
 }
 
 
@@ -189,7 +207,7 @@ const getPageDrinks = () => {
         drink.addEventListener('click', (e) => {
             const id =  e.target.id
             getDrinkInfo(id)
-
+            
         })
     })
 }
@@ -257,10 +275,10 @@ const sendDrink = async (id) => {
         const theDrink = id
         const response = await axios.post('http://localhost:3001/cocktails', {
             webId: theDrink
-            })
+        })
         createSaveButton(response)
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
 }
 
@@ -278,11 +296,12 @@ const createSaveButton = (response) => {
 //sends info to back end and adds column to userCocktails
 const handleSave = async (response) => {
     try {
-        const drinkId = response.data.newCocktail.id
+        const drinkId = response.data.newCocktail[0].id
         const save = await axios.put('http://localhost:3001/users/save', {
             userId: localStorage.getItem('userId'),
             drinkId: drinkId
         })
+        getSavedDrinks()
     } catch (error) {
         console.log(error);
     }
@@ -292,44 +311,162 @@ const handleSave = async (response) => {
 const getSavedDrinks = async () => {
     removeAllChildren(directory)
     try {
+        currentLocation.innerHTML = "Favorite Drinks"
         const res = await axios.get('http://localhost:3001/cocktails/saved')
         const savedDrinks = res.data
         savedDrinks.forEach(async (drink) => {
-        const info = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/lookup.php?i=${drink}`);
-        const nameDiv = document.createElement('div')
-        nameDiv.classList.add('name')
-        nameDiv.setAttribute('id', drink)
-        nameDiv.innerHTML = info.data.drinks[0].strDrink
-        directory.append(nameDiv)
-        nameDiv.addEventListener('click', (e) => {
-            const id = e.target.id
-            getDrinkInfo(id)
+            const info = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/lookup.php?i=${drink}`);
+            const nameDiv = document.createElement('div')
+            nameDiv.classList.add('name')
+            nameDiv.setAttribute('id', drink)
+            nameDiv.innerHTML = info.data.drinks[0].strDrink
+            directory.append(nameDiv)
+            nameDiv.addEventListener('click', (e) => {
+                const id = e.target.id
+                getDrinkInfo(id)
+            })
         })
-    })
     } catch (error) {
         console.log(error);
     }
 }
 
-// LOGGED IN SCREEN EVENTLISTENERS
+
+const getRandoDrink = async () => {
+    try {
+        const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/random.php`)
+        const id = res.data.drinks[0].idDrink
+        const name = res.data.drinks[0].strDrink
+        const pic = res.data.drinks[0].strDrinkThumb
+        const nameDiv = document.createElement('div')
+        const picDiv = document.createElement('img')
+        nameDiv.classList.add('drink')
+        nameDiv.classList.add('randDrink')
+        nameDiv.setAttribute('id', id)
+        picDiv.classList.add('pic')
+        nameDiv.innerHTML = name
+        picDiv.src = pic
+        randomArea.append(nameDiv, picDiv)
+        getPageDrinks()
+    } catch (error) {
+        console.log(error);
+    }
+}
+getRandoDrink()
+
+const handleSearch = async () => {
+    try {
+        removeAllChildren(directory)
+        const cocktail = searchCocktail.value
+        const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/search.php?s=${cocktail}`)
+        const allDrinks = res.data.drinks
+        searchCocktail.value = ""
+        showAllDrinks(allDrinks)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const spiritSearch = async (type) => {
+    try {
+        const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/filter.php?i=${type}`)
+        const drinks = res.data.drinks
+        const rand = drinks.sort(function() {
+        return 0.5 - Math.random();
+        });
+        const allDrinks = rand.slice(drinks,10)
+        showAllDrinks(allDrinks)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const handleCreate = async () => {
+    try {
+        const response = await axios.post('http://localhost:3001/addedCocktails', {
+            name: createName.value,
+            picUrl: createPic.value,
+            instructions: createInstructions.value,
+            ingredient1: cIngredient1.value,
+            ingredient2: cIngredient2.value,
+            ingredient3: cIngredient3.value,
+            ingredient4: cIngredient4.value,
+            ingredient5: cIngredient5.value
+        })
+        const drinkId = response.data.newCocktail.id
+        makeAssociation(drinkId)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const makeAssociation = async (drinkId) => {
+   try {
+        const save = await axios.put('http://localhost:3001/users/save/added', {
+        userId: localStorage.getItem('userId'),
+        drinkId: drinkId
+        })
+        console.log(save);
+   } catch (error) {
+       console.log(error);
+   }
+}
+
+const getAddedCocktails = async () => {
+    try {
+        const res = await axios.get('http://localhost:3001/addedCocktails/added')
+        console.log(res.data);
+        const addedDrinks = res.data
+        addedDrinks.forEach((drink) => {
+            const name = drink.name
+            const nameDiv = document.createElement('div')
+            nameDiv.classList.add('added-drink')
+            nameDiv.innerHTML = name
+            myDrinksArea.append(nameDiv)
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const handleAddedCocktails = () => {
     
+}
+
+
+
+
+// LOGGED IN SCREEN EVENTLISTENERS
+
 navLinks.forEach((link) => {
     link.addEventListener('click', (event) => {
         
         const theLink = event.target.id
         if(theLink === "popular"){
-            getDrinks(popular)
+            getPopOrRecent(popular)
             currentLocation.innerHTML = "Popular Drinks"
+            directory.classList.remove('hidden')
+            spiritScreen.classList.add("hidden")
         }else if(theLink === "recent"){
-            getDrinks(recent)
+            getPopOrRecent(recent)
             currentLocation.innerHTML = "Most Recent Drinks"
+            directory.classList.remove('hidden')
+            spiritScreen.classList.add("hidden")
         }else if(theLink === "spirits"){
             currentLocation.innerHTML = "Spirits"
+            directory.classList.add('hidden')
+            spiritScreen.classList.remove("hidden")
         }else if(theLink === "saved"){
             getSavedDrinks()
             currentLocation.innerHTML = "Favorite Drinks"
-        }else if(theLink === "create"){
-            currentLocation.innerHTML = "Add New Drink"
+        }else if(theLink === "mine"){
+            getAddedCocktails()
+            currentLocation.innerHTML = "My Drinks"
+            spiritScreen.classList.add("hidden")
+            directory.classList.add('hidden')
+            myDrinksScreen.classList.remove('hidden')
+            createScreen.classList.add('hidden')
+            
         }else if(theLink === "logout"){
             displayLoggedOut();
             homeNav.classList.remove('hidden');
@@ -340,17 +477,57 @@ navLinks.forEach((link) => {
     })
 })
 
+randoButton.addEventListener('click', () => {
+    removeAllChildren(randomArea)
+    getRandoDrink()
+})
 
+cocktailForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    handleSearch()
+})
+
+spirits.forEach((spirit) => {
+    spirit.addEventListener('click', (e)=> {
+        currentLocation.innerHTML = e.target.innerHTML
+        const type = e.target.id
+        spiritSearch(type)
+        spiritScreen.classList.add('hidden')
+        directory.classList.remove('hidden')
+    })
+})
+
+
+addNew.addEventListener('click', () => {
+    currentLocation.innerHTML = "Add a New Drink"
+    myDrinksScreen.classList.add('hidden')
+    createScreen.classList.remove('hidden')
+})
+
+
+createForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    handleCreate()
+})
+
+back.addEventListener('click', () => {
+    myDrinksScreen.classList.remove('hidden')
+    createScreen.classList.add('hidden')
+})
 
 
 
 
 
 const checkStorage = () => { 
-if(localStorage.getItem('userId')){
-    getProfile()
-    displayLoggedIn()
-}else{
-    displayLoggedOut()
-}}
-checkStorage()
+    if(localStorage.getItem('userId')){
+        getProfile()
+        displayLoggedIn()
+    }else{
+        displayLoggedOut()
+    }}
+    checkStorage()
+    
+    // window.addEventListener('load', (e) => {
+        //     checkStorage()
+        // })

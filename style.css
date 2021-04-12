@@ -203,14 +203,18 @@ body{
 }
 
 .random-drink{
-    border: solid brown;
+
     padding: 5px;
     margin: -10px;
     width: 300px;
     height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.walk{
+.wild{
     font-size: 30px;
 }
 
@@ -238,9 +242,71 @@ body{
 
 }
 
+.randDrink{
+    font-size: 20px;
+}
 
+.spirit-screen{
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
 
+.spirit-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: solid green;
+    padding:10px;
+    width: 400px;
+}
 
+.spirit{
+    border:solid red;
+    padding:10px;
+    width: 80px;
+    font-size: 20px;
+
+}
+
+.create-screen{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.input{
+    display: flex;
+    padding: 5px;
+    height: 200px;
+    width: 400px;
+    justify-content: space-evenly;
+}
+
+.addCocktail-form{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    height: 300px;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+}
+
+.addFormSection{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    justify-content: center;
+}
+
+.addDrink{
+    width: 150px;
+}
 
 
 

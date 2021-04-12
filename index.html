@@ -80,7 +80,7 @@
                 <div id="user-name">Hello There, user!</div>
                 <div> Thirsty For Something Specific?</div>
                 <form class="search-form">
-                <label for="search-cocktail hidden">Cocktail</label>
+                <label for="search-cocktail">Cocktail</label>
                 <input type="text" id="search-cocktail">
                 <input type="submit" value="Search!">
                 </form>
@@ -91,7 +91,7 @@
                 <span id="recent" class="nav-link">Most Recent</span>
                 <span id="spirits" class="nav-link">Spirits</span>
                 <span id="saved" class="nav-link">My Favs</span>
-                <span id="create"  class="nav-link">Add a New Drink</span>
+                <span id="mine"  class="nav-link">My Drinks</span>
                 <span id="logout" class="nav-link">Logout</span>
             </nav>
             <div class = "profile"> 
@@ -99,21 +99,62 @@
                     <div class = "spacing" id = "title"></div>
                     <section class = "directory"></section>
                     <section class = "spirit-screen hidden">
+                    <div class = 'spirit-section'> 
                         <div class = "spirit" id = "vodka">Vodka</div>
                         <div class = "spirit" id = "rum">Rum</div>
                         <div class = "spirit" id = "gin">Gin</div>
+                    </div>
+                    <div class = 'spirit-section'> 
                         <div class = "spirit" id = "tequila">Tequila</div>
-                        <div class = "spirit" id = "whiskey">Whiskey</div>
+                        <div class = "spirit" id = "bourbon">Whiskey</div>
                         <div class = "spirit" id = "brandy">Brandy</div>
+                    </div>
                     </section>
-                    <section class = "saved-screen hidden">SAVED PLACEHOLER</section>
-                    <section class = "create-screen hidden">CREATE PLACEHODLER</section>
+
+                    <section class = "my-drinks hidden">
+                        <div class = "mydrinks-container"></div>
+                        <div class = "create">Add a New Drink</div>
+                    </section>
+
+
+                    <section class = "create-screen hidden">
+                        <form class="addCocktail-form">
+                            <div class = 'input'> 
+                            <div class = 'addFormSection'> 
+                            <label for="add-name">Cocktail Name:</label>
+                            <input type="text" id="add-name">
+                            <br>
+                            <label for="add-pic">Image Url:</label>
+                            <input type="text" id="add-pic">
+                            <br>
+                            <label for="add-instructions">Instructions:</label>
+                            <input type="text" id="add-instructions">
+                            </div>
+                            <div class = 'addFormSection' id = "ingredients"> 
+                            <label for="add-ingredient-1">Ingredient:</label>
+                            <input type="text" id="add-ingredient-1">
+                            <label for="add-ingredient-2">Ingredient:</label>
+                            <input type="text" id="add-ingredient-2">
+                            <label for="add-ingredient-3">Ingredient:</label>
+                            <input type="text" id="add-ingredient-3">
+                            <label for="add-ingredient-4">Ingredient:</label>
+                            <input type="text" id="add-ingredient-4">
+                            <label for="add-ingredient-5">Ingredient:</label>
+                            <input type="text" id="add-ingredient-5">
+                            </div>
+                            </div>
+                            <br>
+                            
+                            <input type="submit" class = "addDrink" value="Add Drink">
+                            </form>
+                            <div class = "goback">Go Back</div>
+                    </section>
                 </div>
 
                 <div class = "random">
-                    <div class = "walk">Feelin' Wild?</div>
+                    <div class = "wild">Feelin' Wild?</div>
                     <div>Try Something Random!</div>
-                    <div class = "random-drink">RANDOM DRINK PLACEHOLDER</div>
+                    <div class = "random-drink"></div>
                     <div class = "new-random">New Rando</div>
                 </div>
             </div>
