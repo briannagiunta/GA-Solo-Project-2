@@ -63,8 +63,10 @@ const handleLogin = async () => {
             password: password
         })
         const userId = response.data.user.id
+        console.log(userId);
         localStorage.setItem('userId', userId)
         checkStorage()
+        console.log('sup yo');
     } catch (error) {
         console.log(error);
     }
