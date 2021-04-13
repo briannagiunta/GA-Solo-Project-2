@@ -49,7 +49,7 @@ const cIngredient4 = document.querySelector('#add-ingredient-4')
 const cIngredient5 = document.querySelector('#add-ingredient-5')
 const back = document.querySelector('.goback')
 
-
+const backEnd = 'http://localhost:3001'
 
 //HOMESCREEN FUNCTIONS
 // TO DO 1
@@ -58,7 +58,7 @@ const handleLogin = async () => {
     const email = loginEmail.value;
     const password = loginPassword.value;
     try {
-        const response = await axios.post('http://localhost:3001/users/login', {
+        const response = await axios.post(`${backEnd}/users/login`, {
             email: email,
             password: password
         })
@@ -79,7 +79,7 @@ const handleSignUp = async () => {
     const email = signUpEmail.value;
     const password = signUpPassword.value;
     try {
-      const response = await axios.post('http://localhost:3001/users', {
+      const response = await axios.post(`${backEnd}/users`, {
           name: name,
           email: email,
           password: password
@@ -165,7 +165,7 @@ signUpForm.addEventListener('submit', (event) => {
 //gets userid from local storage / gets info on user / shows "hello username"
 const getProfile = async () => {
     try {
-        const userInfo = await axios.get('http://localhost:3001/users/profile', {
+        const userInfo = await axios.get(`${backEnd}/users/profile`, {
             headers: {
                 Authorization: localStorage.getItem('userId')
             }
@@ -188,8 +188,17 @@ const getPopOrRecent = async (type) => {
 }
 
 //creates div for each drink and shows name
-const showAllDrinks = async (allDrinks) => {
+const showAllDrinks = async (res) => {
     removeAllChildren(directory)
+    let allDrinks
+    if(res.length > 10){
+        const rand = res.sort(function() {
+            return 0.5 - Math.random();
+            });
+        allDrinks = rand.slice(res,10)
+    }else{ 
+        allDrinks = res
+    }
     allDrinks.forEach((drink) => {
         const drinkName = drink.strDrink
         const drinkDiv = document.createElement('div')
@@ -197,7 +206,7 @@ const showAllDrinks = async (allDrinks) => {
         drinkDiv.setAttribute('id', drink.idDrink)
         drinkDiv.innerHTML = drinkName
         directory.append(drinkDiv)
-    })
+    }) 
     getPageDrinks()
 }
 
@@ -279,7 +288,7 @@ const displayIngredients = ( [ingredients]) => {
 const sendDrink = async (id) => {
     try {
         const theDrink = id
-        const response = await axios.post('http://localhost:3001/cocktails', {
+        const response = await axios.post(`${backEnd}/cocktails`, {
             webId: theDrink,
             userId: localStorage.getItem('userId')
         })
@@ -316,7 +325,7 @@ const createSaveOrDelete = (response) => {
 const handleSave = async (response) => {
     try {
         const drinkId = response.data.newCocktail[0].id
-        const save = await axios.put('http://localhost:3001/users/save', {
+        const save = await axios.put(`${backEnd}/users/save`, {
             userId: localStorage.getItem('userId'),
             drinkId: drinkId
         })
@@ -330,7 +339,7 @@ const handleDelete = async (response) => {
     try {
         const userId = localStorage.getItem('userId')
         const drinkId = response.data.newCocktail[0].id
-        const myDelete = await axios.delete(`http://localhost:3001/cocktails/${userId}/delete/${drinkId}`)
+        const myDelete = await axios.delete(`${backEnd}/cocktails/${userId}/delete/${drinkId}`)
         getSavedDrinks()
     } catch (error) {
         console.log(error);
@@ -341,7 +350,7 @@ const handleDelete = async (response) => {
 const getSavedDrinks = async () => {
     removeAllChildren(directory)
     try {
-        const res = await axios.put('http://localhost:3001/cocktails/saved', {
+        const res = await axios.put(`${backEnd}/cocktails/saved`, {
             userId: localStorage.getItem('userId')
         })
         const savedDrinks = res.data
@@ -408,11 +417,7 @@ const spiritSearch = async (type) => {
     try {
         const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/filter.php?i=${type}`)
         const drinks = res.data.drinks
-        const rand = drinks.sort(function() {
-        return 0.5 - Math.random();
-        });
-        const allDrinks = rand.slice(drinks,10)
-        showAllDrinks(allDrinks)
+        showAllDrinks(drinks)
     } catch (error) {
         console.log(error);
     }
@@ -421,7 +426,7 @@ const spiritSearch = async (type) => {
 //takes input from form and adds an addedCocktail
 const handleCreate = async () => {
     try {
-        const response = await axios.post('http://localhost:3001/addedCocktails', {
+        const response = await axios.post(`${backEnd}/addedCocktails`, {
             name: createName.value,
             picUrl: createPic.value,
             instructions: createInstructions.value,
@@ -441,7 +446,7 @@ const handleCreate = async () => {
 //adds row to userAddedCocktails table to associate the added cocktail with the user
 const makeAssociation = async (drinkId) => {
    try {
-        const save = await axios.put('http://localhost:3001/users/save/added', {
+        const save = await axios.put(`${backEnd}/users/save/added`, {
         userId: localStorage.getItem('userId'),
         drinkId: drinkId
         })
@@ -456,7 +461,7 @@ const makeAssociation = async (drinkId) => {
 // gets all added cocktails and creates divs for each name// adds an event listener to each // if its clicked, takes that divs info and sends it to displayDrinksInfo
 const getAddedCocktails = async () => {
     try {
-        const res = await axios.put('http://localhost:3001/addedCocktails/added',{
+        const res = await axios.put(`${backEnd}/addedCocktails/added`,{
             userId: localStorage.getItem('userId')
         })
         removeAllChildren(myDrinksArea)
@@ -492,7 +497,7 @@ const createDeleteButton = (drinkId) => {
     directory.append(deleteButton)
     deleteButton.addEventListener('click', async () => {
         const userId = localStorage.getItem('userId')
-        const myDelete = await axios.delete(`http://localhost:3001/addedCocktails/${userId}/delete/${drinkId}`)
+        const myDelete = await axios.delete(`${backEnd}/addedCocktails/${userId}/delete/${drinkId}`)
         console.log(myDelete);
         getAddedCocktails()
         hideSections()
@@ -558,10 +563,8 @@ spirits.forEach((spirit) => {
     spirit.addEventListener('click', (e)=> {
         const type = e.target.innerHTML
         currentLocation.innerHTML = type
-        // console.log(e.target);
-        // console.log(type);
         spiritSearch(type)
-        spiritScreen.classList.add('hidden')
+        hideSections()
         directory.classList.remove('hidden')
     })
 })
@@ -569,7 +572,7 @@ spirits.forEach((spirit) => {
 
 addNew.addEventListener('click', () => {
     currentLocation.innerHTML = "Add a New Drink"
-    myDrinksScreen.classList.add('hidden')
+    hideSections()
     createScreen.classList.remove('hidden')
 })
 
@@ -582,7 +585,7 @@ createForm.addEventListener('submit', (e) => {
 })
 
 back.addEventListener('click', () => {
-    myDrinksScreen.classList.remove('hidden')
+    hideSections()
     createScreen.classList.add('hidden')
 })
 
