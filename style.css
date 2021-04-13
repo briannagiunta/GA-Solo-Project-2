@@ -8,9 +8,8 @@
     cursor: pointer;
 }
   
-.new-random:hover{ 
-    cursor: pointer;
-    border: solid pink;
+.new-random{ 
+    border: 1px solid #93C178;
 }
 
 body{
@@ -147,45 +146,44 @@ body{
 }
 
 .heading{
-    border: solid red;
+    border: 1px solid #93C178;
     padding: 10px;
     margin: 5px;
 }
 
 .profile-nav{
-    border: solid green;
+    border: 1px solid #93C178;
     padding: 10px;
     margin: 5px;
 }
 
 .profile{
     height: 500px;
-    border: solid purple;
+    border: 1px solid #93C178;
     display: flex;
     margin: 5px;
 }
 .directory-container{
-    border: solid blue;
-    padding: 10px;
     margin: 5px;
     width: 600px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 #title{
     font-size: 30px;
-    border: solid red;
+    border: 1px solid #93C178;
 }
  
 .directory{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border:solid green;
+    border: 1px solid #93C178;
     height: 400px;
 }
+
 
 .drink:hover{
     cursor: pointer;
@@ -193,9 +191,9 @@ body{
 
 
 .random{
-    border: solid orange;
+    border: 1px solid #93C178;
     padding: 10px;
-    margin: 5px;
+    margin: 20px;
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -252,6 +250,7 @@ body{
     height: 400px;
     align-items: center;
     justify-content: space-evenly;
+    border: 1px solid #93C178;
     
 }
 
@@ -259,17 +258,50 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: solid green;
+    
     padding:10px;
-    width: 400px;
+    
+}
+
+.vodka{
+    background: url('https://img.freepik.com/free-photo/russian-vodka-background_8353-1240.jpg?size=626&ext=jpg&ga=GA1.2.1614264220.1616803200');
+}
+
+.rum{
+    background: url('https://wallpaperaccess.com/full/2476850.jpg');
+}
+
+.gin{
+    background: url('https://images.unsplash.com/photo-1453825012366-3738046cb6c7?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lufGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80');
+}
+
+.tequila{
+    background: url('https://s3.envato.com/files/256575313/Golden%20tequila%20on%20black%20background.jpg');
+}
+.bourbon{
+    background: url('https://wallpapercave.com/wp/wp1846126.jpg');
+}
+.brandy{
+    background: url('https://ak.picdn.net/shutterstock/videos/5573156/thumb/1.jpg');
 }
 
 .spirit{
-    border:solid red;
-    padding:10px;
-    width: 80px;
-    font-size: 20px;
+    background-size: cover;
+    width: 150px;
+    height: 100px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    float: left;
+}
 
+.spirit p {
+    color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    transform: translate(-50%, -50%);
 }
 
 .create-screen{
@@ -277,6 +309,11 @@ body{
     align-items: center;
     justify-content: center;
     height: 400px;
+    flex-direction: column;
+}
+
+.create{
+    border: solid #93C178;
 }
 
 .input{
@@ -306,6 +343,20 @@ body{
 
 .addDrink{
     width: 150px;
+}
+
+.my-drinks{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 400px;
+}
+
+.mydrinks-container {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    justify-content: space-evenly;
 }
 
 

@@ -26,13 +26,13 @@ const cocktailForm = document.querySelector('.search-form');
 const searchCocktail = document.querySelector('#search-cocktail');
 const navLinks = document.querySelectorAll('.nav-link');
 //LOGGED IN SCREEN PROFILE AREA
-const directory = document.querySelector('.directory');
 const currentLocation = document.querySelector('#title');
+const directory = document.querySelector('.directory');
 const spiritScreen = document.querySelector(".spirit-screen")
 const myDrinksScreen = document.querySelector('.my-drinks')
+const createScreen = document.querySelector(".create-screen")
 const myDrinksArea = document.querySelector('.mydrinks-container')
 const addNew = document.querySelector('.create')
-const createScreen = document.querySelector(".create-screen")
 const sections = document.querySelectorAll('section')
 const randomArea = document.querySelector('.random-drink')
 const randoButton = document.querySelector('.new-random')
@@ -217,6 +217,7 @@ const getDrinkInfo = async (id) => {
     try {
         let ingredients =[]
         let measurements = []
+        console.log(measurements);
         const drinkInfo = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/lookup.php?i=${id}`);
         const currentDrink = drinkInfo.data.drinks[0]
         const name = currentDrink.strDrink
@@ -240,6 +241,8 @@ const getDrinkInfo = async (id) => {
 //creates divs for all info on the clicked drink
 const displayDrinkInfo = (id, name, picUrl, [ingredients], instructions) => {
     removeAllChildren(directory)
+    hideSections()
+    directory.classList.remove('hidden')
     const cockTailContainer = document.createElement('div')
     const drinkPic = document.createElement('img')
     const drinkInstructions = document.createElement('div')
@@ -250,12 +253,14 @@ const displayDrinkInfo = (id, name, picUrl, [ingredients], instructions) => {
     drinkInstructions.innerHTML = instructions
     directory.append(cockTailContainer, drinkInstructions)
     cockTailContainer.append(drinkPic)
-    displayIngredients([ingredients])
-    sendDrink(id)
+    displayIngredients( [ingredients])
     currentLocation.innerHTML = name
+    if(id !== "dont send"){ 
+    sendDrink(id)
+    }
 }
 //creates divs for all ingredients
-const displayIngredients = ([ingredients]) => {
+const displayIngredients = ( [ingredients]) => {
     const container = document.querySelector('.cocktail-container')
     const ingredContainer = document.createElement('div')
     ingredContainer.classList.add('ingredient-container')
@@ -266,34 +271,46 @@ const displayIngredients = ([ingredients]) => {
         ingredDiv.innerHTML = ingredient
         ingredContainer.append(ingredDiv)
     })
-    
 }
 //adds drink to backend database if it is clicked on
-//TO DO  - findOrCreate
+
 const sendDrink = async (id) => {
     try {
         const theDrink = id
         const response = await axios.post('http://localhost:3001/cocktails', {
-            webId: theDrink
+            webId: theDrink,
+            userId: localStorage.getItem('userId')
         })
-        createSaveButton(response)
+        createSaveOrDelete(response)
     } catch (error) {
         console.log(error);
     }
 }
 
-//makes save button and adds event listener to it
-const createSaveButton = (response) => {
-    const saveDrink = document.createElement('div')
-    saveDrink.classList.add('save')
-    saveDrink.innerHTML = "Save Drink"
-    directory.append(saveDrink)
-    saveDrink.addEventListener('click', () => {
-        handleSave(response)
-    })
+//checks whether drink has been added already or not and creates the appropriate button
+const createSaveOrDelete = (response) => {
+    if(response.data.message === 'not saved'){ 
+        const saveDrink = document.createElement('div')
+        saveDrink.classList.add('save')
+        saveDrink.innerHTML = "Save Drink"
+        directory.append(saveDrink)
+        saveDrink.addEventListener('click', () => {
+            currentLocation.innerHTML = "Favorite Drinks"
+            handleSave(response)
+        })
+    }else{
+        const deleteDrink = document.createElement('div')
+        deleteDrink.classList.add('save')
+        deleteDrink.innerHTML = "Delete Drink"
+        directory.append(deleteDrink)
+        deleteDrink.addEventListener('click', async () => {
+            currentLocation.innerHTML = "Favorite Drinks"
+            handleDelete(response);
+        })
+    }
 }
 
-//sends info to back end and adds column to userCocktails
+//sends info to back end and adds row to userCocktails
 const handleSave = async (response) => {
     try {
         const drinkId = response.data.newCocktail[0].id
@@ -306,18 +323,30 @@ const handleSave = async (response) => {
         console.log(error);
     }
 }
+//sends info to back end and removes row to userCocktails
+const handleDelete = async (response) => {
+    try {
+        const userId = localStorage.getItem('userId')
+        const drinkId = response.data.newCocktail[0].id
+        const myDelete = await axios.delete(`http://localhost:3001/cocktails/${userId}/delete/${drinkId}`)
+        getSavedDrinks()
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 //gets all saved drinks and creates a div for each displaying its name
 const getSavedDrinks = async () => {
     removeAllChildren(directory)
     try {
-        currentLocation.innerHTML = "Favorite Drinks"
-        const res = await axios.get('http://localhost:3001/cocktails/saved')
+        const res = await axios.put('http://localhost:3001/cocktails/saved', {
+            userId: localStorage.getItem('userId')
+        })
         const savedDrinks = res.data
         savedDrinks.forEach(async (drink) => {
             const info = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/lookup.php?i=${drink}`);
             const nameDiv = document.createElement('div')
-            nameDiv.classList.add('name')
+            nameDiv.classList.add('drink')
             nameDiv.setAttribute('id', drink)
             nameDiv.innerHTML = info.data.drinks[0].strDrink
             directory.append(nameDiv)
@@ -331,7 +360,7 @@ const getSavedDrinks = async () => {
     }
 }
 
-
+//gets random drink from api and displays it in rando area
 const getRandoDrink = async () => {
     try {
         const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/random.php`)
@@ -354,10 +383,15 @@ const getRandoDrink = async () => {
 }
 getRandoDrink()
 
+
+//takes value from import form and adds it to the api url then searches the api for that drink
 const handleSearch = async () => {
     try {
         removeAllChildren(directory)
+        hideSections()
+        directory.classList.remove('hidden')
         const cocktail = searchCocktail.value
+        currentLocation.innerHTML = cocktail
         const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/search.php?s=${cocktail}`)
         const allDrinks = res.data.drinks
         searchCocktail.value = ""
@@ -367,6 +401,7 @@ const handleSearch = async () => {
     }
 }
 
+//searches api based on spirit
 const spiritSearch = async (type) => {
     try {
         const res = await axios.get(`https://thecocktaildb.com/api/json/v2/9973533/filter.php?i=${type}`)
@@ -381,6 +416,7 @@ const spiritSearch = async (type) => {
     }
 }
 
+//takes input from form and adds an addedCocktail
 const handleCreate = async () => {
     try {
         const response = await axios.post('http://localhost:3001/addedCocktails', {
@@ -400,6 +436,7 @@ const handleCreate = async () => {
     }
 }
 
+//adds row to userAddedCocktails table to associate the added cocktail with the user
 const makeAssociation = async (drinkId) => {
    try {
         const save = await axios.put('http://localhost:3001/users/save/added', {
@@ -407,31 +444,60 @@ const makeAssociation = async (drinkId) => {
         drinkId: drinkId
         })
         console.log(save);
+        getAddedCocktails()
    } catch (error) {
        console.log(error);
    }
 }
 
+
+// gets all added cocktails and creates divs for each name// adds an event listener to each // if its clicked, takes that divs info and sends it to displayDrinksInfo
 const getAddedCocktails = async () => {
     try {
-        const res = await axios.get('http://localhost:3001/addedCocktails/added')
-        console.log(res.data);
+        const res = await axios.put('http://localhost:3001/addedCocktails/added',{
+            userId: localStorage.getItem('userId')
+        })
+        removeAllChildren(myDrinksArea)
         const addedDrinks = res.data
         addedDrinks.forEach((drink) => {
+            const drinkId = drink.id
             const name = drink.name
             const nameDiv = document.createElement('div')
-            nameDiv.classList.add('added-drink')
+            nameDiv.classList.add('drink')
             nameDiv.innerHTML = name
             myDrinksArea.append(nameDiv)
+            nameDiv.addEventListener('click', (e) => {
+                const id = "dont send"
+                const name = drink.name
+                const picUrl = drink.picUrl
+                const ingredients = [drink.ingredient1,drink.ingredient2,drink.ingredient3,drink.ingredient4,drink.ingredient5]
+                const instructions = drink.instructions
+                myDrinksScreen.classList.add('hidden')
+                directory.classList.remove('hidden')
+                displayDrinkInfo(id, name, picUrl, [ingredients], instructions)
+                createDeleteButton(drinkId)
+            })
         })
     } catch (error) {
         console.log(error);
     }
 }
-
-const handleAddedCocktails = () => {
-    
+//adds delete button && event listener to each added drink//deletes drink if its clicked
+const createDeleteButton = (drinkId) => {
+    const deleteButton = document.createElement('div')
+    deleteButton.classList.add('delete')
+    deleteButton.innerHTML = "Delete"
+    directory.append(deleteButton)
+    deleteButton.addEventListener('click', async () => {
+        const userId = localStorage.getItem('userId')
+        const myDelete = await axios.delete(`http://localhost:3001/addedCocktails/${userId}/delete/${drinkId}`)
+        console.log(myDelete);
+        getAddedCocktails()
+        hideSections()
+        myDrinksScreen.classList.remove('hidden')
+    })
 }
+
 
 
 
@@ -443,30 +509,29 @@ navLinks.forEach((link) => {
         
         const theLink = event.target.id
         if(theLink === "popular"){
-            getPopOrRecent(popular)
             currentLocation.innerHTML = "Popular Drinks"
+            getPopOrRecent(popular)
+            hideSections()
             directory.classList.remove('hidden')
-            spiritScreen.classList.add("hidden")
         }else if(theLink === "recent"){
-            getPopOrRecent(recent)
             currentLocation.innerHTML = "Most Recent Drinks"
+            getPopOrRecent(recent)
+            hideSections()
             directory.classList.remove('hidden')
-            spiritScreen.classList.add("hidden")
         }else if(theLink === "spirits"){
             currentLocation.innerHTML = "Spirits"
-            directory.classList.add('hidden')
+            hideSections()
             spiritScreen.classList.remove("hidden")
         }else if(theLink === "saved"){
-            getSavedDrinks()
             currentLocation.innerHTML = "Favorite Drinks"
+            getSavedDrinks()
+            hideSections()
+            directory.classList.remove('hidden')
         }else if(theLink === "mine"){
-            getAddedCocktails()
             currentLocation.innerHTML = "My Drinks"
-            spiritScreen.classList.add("hidden")
-            directory.classList.add('hidden')
+            getAddedCocktails()
+            hideSections()
             myDrinksScreen.classList.remove('hidden')
-            createScreen.classList.add('hidden')
-            
         }else if(theLink === "logout"){
             displayLoggedOut();
             homeNav.classList.remove('hidden');
@@ -489,8 +554,10 @@ cocktailForm.addEventListener('submit', (e) => {
 
 spirits.forEach((spirit) => {
     spirit.addEventListener('click', (e)=> {
-        currentLocation.innerHTML = e.target.innerHTML
-        const type = e.target.id
+        const type = e.target.innerHTML
+        currentLocation.innerHTML = type
+        // console.log(e.target);
+        // console.log(type);
         spiritSearch(type)
         spiritScreen.classList.add('hidden')
         directory.classList.remove('hidden')
@@ -508,6 +575,8 @@ addNew.addEventListener('click', () => {
 createForm.addEventListener('submit', (e) => {
     e.preventDefault()
     handleCreate()
+    hideSections()
+    myDrinksScreen.classList.remove('hidden')
 })
 
 back.addEventListener('click', () => {
