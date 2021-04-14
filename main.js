@@ -123,17 +123,13 @@ const hideSections = () => {
     })
 }
 
-
-
 const clearForms = () => { 
-const inputs = document.querySelectorAll('input')
-// console.log(input);
-inputs.forEach((input) => {
-//    console.log(input)
-   if(input.type === 'text'){
-       input.value = ""
-   }
-})
+    const inputs = document.querySelectorAll('input')
+    inputs.forEach((input) => {
+        if(input.type === 'text'){
+            input.value = ""
+        }
+    })
 }
 
 
@@ -141,20 +137,21 @@ inputs.forEach((input) => {
 
 //shows login form when login is clicked
 showLogin.addEventListener('click', () => {
-    clearForms()
+    // clearForms()
     homeNav.classList.add('hidden');
     loginArea.classList.remove('hidden');
 })
 
 //shows signup form when signup form is clicked
 showSignUp.addEventListener('click', () => {
-    clearForms()
+    // clearForms()
     homeNav.classList.add('hidden');
     signUpArea.classList.remove('hidden');
 })
 
 //hides forms and shows home nav buttons when goback is clicked
 goBack.forEach((back) => {
+    // clearForms()
     back.addEventListener('click', () => {
         homeNav.classList.remove('hidden');
         loginArea.classList.add('hidden');
@@ -164,13 +161,13 @@ goBack.forEach((back) => {
 //adds event listener to log in form and calls login function when form is submitted
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    clearForms()
+    // clearForms()
     handleLogin()
 })
 //adds event listener to sign up form and calls sign up function when form is submitted
 signUpForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    clearForms()
+    // clearForms()
     handleSignUp()
 })
 
@@ -209,6 +206,7 @@ const getPopOrRecent = async (type) => {
 const showAllDrinks = async (res) => {
     removeAllChildren(directory)
     let allDrinks
+    //if there are more than 10 drinks, shows only 10
     if(res.length > 10){
         const rand = res.sort(function() {
             return 0.5 - Math.random();
@@ -354,7 +352,7 @@ const handleSave = async (response) => {
         console.log(error);
     }
 }
-//sends info to back end and removes row to userCocktails
+//sends info to back end and removes row from userCocktails
 const handleDelete = async (response) => {
     try {
         const userId = localStorage.getItem('userId')
@@ -512,6 +510,8 @@ const getAddedCocktails = async () => {
         console.log(error);
     }
 }
+
+
 //adds delete button && event listener to each added drink//deletes drink if its clicked
 const createDeleteButton = (drinkId) => {
     const deleteButton = document.createElement('div')
@@ -528,7 +528,6 @@ const createDeleteButton = (drinkId) => {
         currentLocation.innerHTML = "My Cocktails"
     })
 }
-
 
 
 
@@ -597,7 +596,7 @@ spirits.forEach((spirit) => {
 addNew.addEventListener('click', () => {
     currentLocation.innerHTML = "Add a New Cocktail"
     hideSections()
-    clearForms()
+    // clearForms()
     createScreen.classList.remove('hidden')
 })
 
