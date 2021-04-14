@@ -51,6 +51,7 @@ const back = document.querySelector('.goback')
 
 const backEnd = 'http://localhost:3001'
 
+
 //HOMESCREEN FUNCTIONS
 // TO DO 1
 //sends text from login form and posts it to the backend / backend verifys info and sends back user info or error if info is wrong 
@@ -108,7 +109,7 @@ const displayLoggedIn = () => {
     homeScreen.classList.add('hidden');
     loggedInScreen.classList.remove('hidden');
     getPopOrRecent(popular)
-    currentLocation.innerHTML = 'Popular Drinks'
+    currentLocation.innerHTML = 'Popular Cocktails'
 }
 
 const displayLoggedOut = () => {
@@ -200,10 +201,12 @@ const showAllDrinks = async (res) => {
         allDrinks = res
     }
     allDrinks.forEach((drink) => {
+        const pic = drink.strDrinkThumb
         const drinkName = drink.strDrink
         const drinkDiv = document.createElement('div')
         drinkDiv.classList.add('drink')
         drinkDiv.setAttribute('id', drink.idDrink)
+        drinkDiv.style.backgroundImage = `url(${pic})`;
         drinkDiv.innerHTML = drinkName
         directory.append(drinkDiv)
     }) 
@@ -306,7 +309,7 @@ const createSaveOrDelete = (response) => {
         saveDrink.innerHTML = "Save Drink"
         directory.append(saveDrink)
         saveDrink.addEventListener('click', () => {
-            currentLocation.innerHTML = "Favorite Drinks"
+            currentLocation.innerHTML = "Favorite Cocktails"
             handleSave(response)
         })
     }else{
@@ -315,7 +318,7 @@ const createSaveOrDelete = (response) => {
         deleteDrink.innerHTML = "Delete Drink"
         directory.append(deleteDrink)
         deleteDrink.addEventListener('click', async () => {
-            currentLocation.innerHTML = "Favorite Drinks"
+            currentLocation.innerHTML = "Favorite Cocktails"
             handleDelete(response);
         })
     }
@@ -360,6 +363,8 @@ const getSavedDrinks = async () => {
             nameDiv.classList.add('drink')
             nameDiv.setAttribute('id', drink)
             nameDiv.innerHTML = info.data.drinks[0].strDrink
+            // const pic = drink.strDrinkThumb
+            nameDiv.style.backgroundImage = `url(${info.data.drinks[0].strDrinkThumb})`;
             directory.append(nameDiv)
             nameDiv.addEventListener('click', (e) => {
                 const id = e.target.id
@@ -379,14 +384,15 @@ const getRandoDrink = async () => {
         const name = res.data.drinks[0].strDrink
         const pic = res.data.drinks[0].strDrinkThumb
         const nameDiv = document.createElement('div')
-        const picDiv = document.createElement('img')
+        // const picDiv = document.createElement('img')
         nameDiv.classList.add('drink')
         nameDiv.classList.add('randDrink')
+        nameDiv.style.backgroundImage = `url(${pic})`
         nameDiv.setAttribute('id', id)
-        picDiv.classList.add('pic')
+        // picDiv.classList.add('pic')
         nameDiv.innerHTML = name
-        picDiv.src = pic
-        randomArea.append(nameDiv, picDiv)
+        // picDiv.src = pic
+        randomArea.append(nameDiv)
         getPageDrinks()
     } catch (error) {
         console.log(error);
@@ -516,12 +522,12 @@ navLinks.forEach((link) => {
         
         const theLink = event.target.id
         if(theLink === "popular"){
-            currentLocation.innerHTML = "Popular Drinks"
+            currentLocation.innerHTML = "Popular Cocktails"
             getPopOrRecent(popular)
             hideSections()
             directory.classList.remove('hidden')
         }else if(theLink === "recent"){
-            currentLocation.innerHTML = "Most Recent Drinks"
+            currentLocation.innerHTML = "Most Recent Cocktails"
             getPopOrRecent(recent)
             hideSections()
             directory.classList.remove('hidden')
@@ -530,12 +536,12 @@ navLinks.forEach((link) => {
             hideSections()
             spiritScreen.classList.remove("hidden")
         }else if(theLink === "saved"){
-            currentLocation.innerHTML = "Favorite Drinks"
+            currentLocation.innerHTML = "Favorite Cocktails"
             getSavedDrinks()
             hideSections()
             directory.classList.remove('hidden')
         }else if(theLink === "mine"){
-            currentLocation.innerHTML = "My Drinks"
+            currentLocation.innerHTML = "My Cocktails"
             getAddedCocktails()
             hideSections()
             myDrinksScreen.classList.remove('hidden')
@@ -571,7 +577,7 @@ spirits.forEach((spirit) => {
 
 
 addNew.addEventListener('click', () => {
-    currentLocation.innerHTML = "Add a New Drink"
+    currentLocation.innerHTML = "Add a New Cocktail"
     hideSections()
     createScreen.classList.remove('hidden')
 })
@@ -585,8 +591,9 @@ createForm.addEventListener('submit', (e) => {
 })
 
 back.addEventListener('click', () => {
+    currentLocation.innerHTML = "My Cocktails"
     hideSections()
-    createScreen.classList.add('hidden')
+    myDrinksScreen.classList.remove('hidden')
 })
 
 

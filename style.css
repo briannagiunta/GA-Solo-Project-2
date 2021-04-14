@@ -6,11 +6,9 @@
   
 .nav-link:hover {
     cursor: pointer;
+    color: white;
 }
   
-.new-random{ 
-    border: 1px solid #93C178;
-}
 
 body{
     font-family: 'Fjalla One', sans-serif;
@@ -20,8 +18,10 @@ body{
     align-items: center;
     text-align: center;
     color: rgb(255, 255, 255, 0.8);
-    background-image: radial-gradient(rgb(100, 100, 101),rgb(25, 25, 27))
+    background-image: radial-gradient(rgb(0 0 0),rgb(32 32 37));
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
+
 
 .home-container{
     
@@ -31,8 +31,6 @@ body{
     display:flex;
     flex-direction: column;
     justify-content: space-around;
-    
-
 }
 
 
@@ -77,21 +75,17 @@ body{
     align-items: center;
     background-image: radial-gradient(#DFDCE3, #93C178);
     border: 1px solid rgb(255, 255, 255, 0.8);
-    
     color: white;
     font-size: 25px;
 }
 
 .favorite{
-   
     padding: 20px;
     margin: 5px;
     display: inline-block;
     font-size: 25px;
-
 }
  .home-nav{
-   
     padding: 10px;
     display: flex;
     justify-content: space-evenly;
@@ -112,13 +106,11 @@ body{
 }
 
 .login-area{
-  
     padding: 10px;
     margin: 5px;
 }
 
 .signUp-area{
-   
     padding: 10px;
     margin: 5px;
 }
@@ -138,74 +130,102 @@ body{
 
 
 .loggedin-container{
-    border: solid black;
-    padding: 10px;
-    margin: 5px;
-    width: 900px;
+    padding: 10px 40px 10px 40px;
+    width: 960px;
     height: 650px;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 80%), 0 1px 4px rgb(0 0 0 / 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: radial-gradient(rgb(89 89 121 / 65%),rgb(25, 25, 27));
 }
 
+
 .heading{
-    border: 1px solid #93C178;
     padding: 10px;
     margin: 5px;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 50%), 0 1px 4px rgb(0 0 0 / 50%);
 }
 
 .profile-nav{
-    border: 1px solid #93C178;
-    padding: 10px;
+    padding: 5px;
     margin: 5px;
+    font-size: 18px;
 }
 
 .profile{
-    height: 500px;
-    border: 1px solid #93C178;
+    height: 480px;
     display: flex;
     margin: 5px;
+    justify-content: space-between;
 }
 .directory-container{
-    margin: 5px;
-    width: 600px;
+    width: 625px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 50%), 0 1px 4px rgb(0 0 0 / 50%);
 }
 
 #title{
     font-size: 30px;
-    border: 1px solid #93C178;
+
 }
  
 .directory{
     display: flex;
-    flex-direction: column;
+    flex-flow: wrap;
     justify-content: space-evenly;
-    border: 1px solid #93C178;
+    align-items: center;
     height: 400px;
+    color: white;
+    font-weight: bolder;
 }
 
+.drink {
+    font-size: 23px;
+    width: 105px;
+    height: 123px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 80%), 0 1px 4px rgb(0 0 0 / 80%);
+    color: white;
+    font-weight: bolder;
+}
+
+
+.drinkPic{
+    width: 100px;
+    
+}
 
 .drink:hover{
     cursor: pointer;
 }
 
+.instructions {
+    height: 120px;
+    display: contents;
+}
 
 .random{
-    border: 1px solid #93C178;
     padding: 10px;
-    margin: 20px;
-    width: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 50%), 0 1px 4px rgb(0 0 0 / 50%);
 }
 
 .random-drink{
-
     padding: 5px;
     margin: -10px;
-    width: 300px;
-    height: 350px;
+    width: 250px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -235,13 +255,22 @@ body{
     justify-content: space-evenly;
 }
 
+.save{
+    display: inline-block;
+    align-self: center;
+    padding: 10px;
+    border: 1px solid white;
+}
 .save:hover{
     cursor: pointer;
+    color: rgb(200, 138, 200);
 
 }
 
 .randDrink{
-    font-size: 20px;
+    font-size: 25px;
+    width: 200px;
+    height: 200px;
 }
 
 .spirit-screen{
@@ -250,7 +279,6 @@ body{
     height: 400px;
     align-items: center;
     justify-content: space-evenly;
-    border: 1px solid #93C178;
     
 }
 
@@ -258,7 +286,6 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
     padding:10px;
     
 }
@@ -313,7 +340,27 @@ body{
 }
 
 .create{
-    border: solid #93C178;
+    display: inline-block;
+    align-self: center;
+    padding: 10px;
+    border: 1px solid white;
+}
+
+.create:hover{
+    cursor: pointer;
+    color: rgb(200, 138, 200);
+}
+
+.new-random{
+    display: inline-block;
+    align-self: center;
+    padding: 5px;
+    border: 1px solid white;
+}
+
+.new-random:hover{
+    cursor: pointer;
+    color: rgb(200, 138, 200);
 }
 
 .input{
@@ -354,9 +401,14 @@ body{
 
 .mydrinks-container {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     height: 300px;
     justify-content: space-evenly;
+}
+
+#user-name{
+    font-size: 28px;
+    padding: 5px;
 }
 
 
