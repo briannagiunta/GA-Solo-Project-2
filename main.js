@@ -525,6 +525,7 @@ const createDeleteButton = (drinkId) => {
         getAddedCocktails()
         hideSections()
         myDrinksScreen.classList.remove('hidden')
+        currentLocation.innerHTML = "My Cocktails"
     })
 }
 
