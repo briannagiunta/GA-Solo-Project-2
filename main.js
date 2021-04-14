@@ -124,16 +124,31 @@ const hideSections = () => {
 }
 
 
+
+const clearForms = () => { 
+const inputs = document.querySelectorAll('input')
+// console.log(input);
+inputs.forEach((input) => {
+//    console.log(input)
+   if(input.type === 'text'){
+       input.value = ""
+   }
+})
+}
+
+
 //HOME EVENT LISTENERS
 
 //shows login form when login is clicked
 showLogin.addEventListener('click', () => {
+    clearForms()
     homeNav.classList.add('hidden');
     loginArea.classList.remove('hidden');
 })
 
 //shows signup form when signup form is clicked
 showSignUp.addEventListener('click', () => {
+    clearForms()
     homeNav.classList.add('hidden');
     signUpArea.classList.remove('hidden');
 })
@@ -149,11 +164,13 @@ goBack.forEach((back) => {
 //adds event listener to log in form and calls login function when form is submitted
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault()
+    clearForms()
     handleLogin()
 })
 //adds event listener to sign up form and calls sign up function when form is submitted
 signUpForm.addEventListener('submit', (event) => {
     event.preventDefault()
+    clearForms()
     handleSignUp()
 })
 
@@ -579,6 +596,7 @@ spirits.forEach((spirit) => {
 addNew.addEventListener('click', () => {
     currentLocation.innerHTML = "Add a New Cocktail"
     hideSections()
+    clearForms()
     createScreen.classList.remove('hidden')
 })
 
