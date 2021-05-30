@@ -54,7 +54,8 @@ const backEnd = 'http://localhost:3001'
 
 //HOMESCREEN FUNCTIONS
 // TO DO 1
-//sends text from login form and posts it to the backend / backend verifys info and sends back user info or error if info is wrong 
+//sends text from login form and posts it to the backend /
+// backend verifys info and sends back user info or error if info is wrong 
 const handleLogin = async () => {
     const email = loginEmail.value;
     const password = loginPassword.value;
@@ -73,8 +74,9 @@ const handleLogin = async () => {
     }
 }
 
-//TO DO 2
-//sends text from sign up form and posts it to the backend / backend sends back new user info / saves userId to local storage
+
+//sends text from sign up form and posts it to the backend / 
+//backend sends back new user info / saves userId to local storage
 const handleSignUp = async () => {
     const name = signUpName.value;
     const email = signUpEmail.value;
